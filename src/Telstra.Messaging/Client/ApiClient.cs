@@ -391,15 +391,15 @@ namespace Telstra.Messaging.Client
             var existingDeserializer = req.JsonSerializer as IDeserializer;
             if (existingDeserializer != null)
             {
-                client.AddHandler(existingDeserializer, "application/json", "text/json", "text/x-json", "text/javascript", "*+json");
+                AddHandlerHelper(client, existingDeserializer, new string[] { "application/json", "text/json", "text/x-json", "text/javascript", "*+json" });
             }
             else
             {
                 var codec = new CustomJsonCodec(configuration);
-                client.AddHandler(codec, "application/json", "text/json", "text/x-json", "text/javascript", "*+json");
+                AddHandlerHelper(client, codec, new string[] { "application/json", "text/json", "text/x-json", "text/javascript", "*+json" });
             }
 
-            client.AddHandler(new XmlDeserializer(), "application/xml", "text/xml", "*+xml", "*");
+            AddHandlerHelper(client, new XmlDeserializer(), new string[] { "application/xml", "text/xml", "*+xml", "*" });
 
             client.Timeout = configuration.Timeout;
 
@@ -409,7 +409,7 @@ namespace Telstra.Messaging.Client
             }
 
             InterceptRequest(req);
-            var response = await client.ExecuteTaskAsync<T>(req);
+            var response = await client.ExecuteAsync<T>(req);
             InterceptResponse(req, response);
 
             var result = toApiResponse(response);
@@ -446,7 +446,15 @@ namespace Telstra.Messaging.Client
             }
             return result;
         }
-        
+
+        private void AddHandlerHelper(RestClient client, IDeserializer deserializerFactory, string[] contextTypes)
+        {
+            foreach (var contextType in contextTypes)
+            {
+                client.AddHandler(contextType, () => deserializerFactory);
+            }
+        }
+
         #region IAsynchronousClient
         /// <summary>
         /// Make a HTTP GET request (async).
