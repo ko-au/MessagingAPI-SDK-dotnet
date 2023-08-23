@@ -6,17 +6,17 @@
     <AssemblyName>Telstra.Messaging</AssemblyName>
     <PackageId>Telstra.Messaging</PackageId>
     <OutputType>Library</OutputType>
-    <Authors>OpenAPI</Authors>
-    <Company>OpenAPI</Company>
+    <Authors>Telstra.Messaging</Authors>
+    <Company></Company>
     <AssemblyTitle>OpenAPI Library</AssemblyTitle>
-    <Description>A library generated from a OpenAPI doc</Description>
-    <Copyright>No Copyright</Copyright>
+    <Description>For use with the Telstra Message API v2</Description>
+    <Copyright></Copyright>
     <RootNamespace>Telstra.Messaging</RootNamespace>
-    <Version>1.1.0</Version>
+    <Version>2.0.0</Version>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\Telstra.Messaging.xml</DocumentationFile>
-    <RepositoryUrl>https://github.com/GIT_USER_ID/GIT_REPO_ID.git</RepositoryUrl>
-    <RepositoryType>git</RepositoryType>
-    <PackageReleaseNotes>Minor update</PackageReleaseNotes>
+    <RepositoryUrl></RepositoryUrl>
+    <RepositoryType></RepositoryType>
+    <PackageReleaseNotes></PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
