@@ -94,8 +94,8 @@ Class | Method | HTTP request | Description
 *MessagingApi* | [**GetMMSStatus**](docs/MessagingApi.md#getmmsstatus) | **GET** /messages/mms/{messageid}/status | Get MMS Status
 *MessagingApi* | [**GetSMSStatus**](docs/MessagingApi.md#getsmsstatus) | **GET** /messages/sms/{messageId}/status | Get SMS Status
 *MessagingApi* | [**MMSHealthCheck**](docs/MessagingApi.md#mmshealthcheck) | **GET** /messages/mms/heathcheck | MMS Health Check
-*MessagingApi* | [**RetrieveMMSReplies**](docs/MessagingApi.md#retrievemmsreplies) | **GET** /messages/mms | Retrieve MMS Replies
-*MessagingApi* | [**RetrieveSMSReplies**](docs/MessagingApi.md#retrievesmsreplies) | **GET** /messages/sms | Retrieve SMS Replies
+*MessagingApi* | [**RetrieveMMSResponses**](docs/MessagingApi.md#retrievemmsresponses) | **GET** /messages/mms | Retrieve MMS Responses
+*MessagingApi* | [**RetrieveSMSResponses**](docs/MessagingApi.md#retrievesmsresponses) | **GET** /messages/sms | Retrieve SMS Responses
 *MessagingApi* | [**SMSHealthCheck**](docs/MessagingApi.md#smshealthcheck) | **GET** /messages/sms/heathcheck | SMS Health Check
 *MessagingApi* | [**SMSMulti**](docs/MessagingApi.md#smsmulti) | **POST** /messages/sms/multi | Send Multiple SMS
 *MessagingApi* | [**SendMMS**](docs/MessagingApi.md#sendmms) | **POST** /messages/mms | Send MMS
@@ -109,22 +109,17 @@ Class | Method | HTTP request | Description
 ## Documentation for Models
 
  - [Model.DeleteNumberRequest](docs/DeleteNumberRequest.md)
- - [Model.GetMmsResponse](docs/GetMmsResponse.md)
  - [Model.GetSubscriptionResponse](docs/GetSubscriptionResponse.md)
- - [Model.HealthCheckResponse](docs/HealthCheckResponse.md)
  - [Model.InboundPollResponse](docs/InboundPollResponse.md)
- - [Model.MMSContent](docs/MMSContent.md)
  - [Model.Message](docs/Message.md)
- - [Model.MessageMulti](docs/MessageMulti.md)
- - [Model.MessageSentResponseMms](docs/MessageSentResponseMms.md)
- - [Model.MessageSentResponseSms](docs/MessageSentResponseSms.md)
+ - [Model.MessageSentResponse](docs/MessageSentResponse.md)
+ - [Model.MMSContent](docs/MMSContent.md)
  - [Model.OAuthResponse](docs/OAuthResponse.md)
  - [Model.OutboundPollResponse](docs/OutboundPollResponse.md)
  - [Model.ProvisionNumberRequest](docs/ProvisionNumberRequest.md)
  - [Model.ProvisionNumberResponse](docs/ProvisionNumberResponse.md)
  - [Model.SendMmsRequest](docs/SendMmsRequest.md)
  - [Model.SendSMSRequest](docs/SendSMSRequest.md)
- - [Model.SendSmsMultiRequest](docs/SendSmsMultiRequest.md)
  - [Model.Status](docs/Status.md)
 
 

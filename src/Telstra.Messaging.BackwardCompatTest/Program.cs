@@ -15,12 +15,11 @@ namespace Telstra.Messaging.BackwardCompatTest
             var clientId = Environment.GetEnvironmentVariable("CLIENT_ID");  // string | 
             var clientSecret = Environment.GetEnvironmentVariable("CLIENT_SECRET");  // string | 
             var grantType = "client_credentials";  // string |  (default to "client_credentials")
-            var scope = "NSMS";  // string | NSMS (optional) 
 
             try
             {
                 // Generate OAuth2 token
-                OAuthResponse result = apiInstance.AuthToken(clientId, clientSecret, grantType, scope);
+                OAuthResponse result = apiInstance.AuthToken(clientId, clientSecret, grantType);
                 Console.WriteLine("Token acquired!");
                 config.AccessToken = result.AccessToken;
 
@@ -35,7 +34,7 @@ namespace Telstra.Messaging.BackwardCompatTest
                     "Test C# SDK",
                     Environment.GetEnvironmentVariable("FROM_ALIAS"));
 
-                MessageSentResponseSms smsResult = smsApiInstance.SendSMS(payload);
+                MessageSentResponse smsResult = smsApiInstance.SendSMS(payload);
                 Console.WriteLine("Message sent");
             }
             catch (ApiException e)

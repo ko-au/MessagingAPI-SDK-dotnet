@@ -223,7 +223,7 @@ namespace Telstra.Messaging.Api
         /// <returns>OAuthResponse</returns>
         public OAuthResponse AuthToken(string clientId, string clientSecret, string grantType, int operationIndex = 0)
         {
-            Telstra.Messaging.Client.ApiResponse<OAuthResponse> localVarResponse = AuthTokenWithHttpInfo(clientId, clientSecret, grantType);
+            Telstra.Messaging.Client.ApiResponse<OAuthResponse> localVarResponse = AuthTokenWithHttpInfo(clientId, clientSecret, grantType, operationIndex);
             return localVarResponse.Data;
         }
 
