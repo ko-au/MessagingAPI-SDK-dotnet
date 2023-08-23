@@ -1,4 +1,5 @@
 # Telstra.Messaging.Model.OAuthResponse
+
 ## Properties
 
 Name | Type | Description | Notes
