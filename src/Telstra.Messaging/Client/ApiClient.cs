@@ -452,8 +452,8 @@ namespace Telstra.Messaging.Client
             {
                 ClientCertificates = configuration.ClientCertificates,
                 CookieContainer = cookies,
-                MaxTimeout = configuration.Timeout,
                 Proxy = configuration.Proxy,
+                Timeout = TimeSpan.FromMilliseconds(configuration.Timeout),
                 UserAgent = configuration.UserAgent
             };
 
@@ -483,7 +483,7 @@ namespace Telstra.Messaging.Client
             {
                 var policy = RetryConfiguration.RetryPolicy;
                 var policyResult = policy.ExecuteAndCapture(() => client.Execute(req));
-                response = (policyResult.Outcome == OutcomeType.Successful) ? client.Deserialize<T>(policyResult.Result) : new RestResponse<T>(req)
+                response = (policyResult.Outcome == OutcomeType.Successful) ? client.Deserialize<T>(policyResult.Result, CancellationToken.None).Result : new RestResponse<T>(req)
                 {
                     Request = req,
                     ErrorException = policyResult.FinalException
@@ -563,8 +563,8 @@ namespace Telstra.Messaging.Client
             var clientOptions = new RestClientOptions(baseUrl)
             {
                 ClientCertificates = configuration.ClientCertificates,
-                MaxTimeout = configuration.Timeout,
                 Proxy = configuration.Proxy,
+                Timeout = TimeSpan.FromMilliseconds(configuration.Timeout),
                 UserAgent = configuration.UserAgent
             };
 
@@ -594,7 +594,7 @@ namespace Telstra.Messaging.Client
             {
                 var policy = RetryConfiguration.AsyncRetryPolicy;
                 var policyResult = await policy.ExecuteAndCaptureAsync((ct) => client.ExecuteAsync(req, ct), cancellationToken).ConfigureAwait(false);
-                response = (policyResult.Outcome == OutcomeType.Successful) ? client.Deserialize<T>(policyResult.Result) : new RestResponse<T>(req)
+                response = (policyResult.Outcome == OutcomeType.Successful) ? await client.Deserialize<T>(policyResult.Result, cancellationToken) : new RestResponse<T>(req)
                 {
                     Request = req,
                     ErrorException = policyResult.FinalException
