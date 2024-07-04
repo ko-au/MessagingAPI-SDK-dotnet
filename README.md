@@ -13,21 +13,19 @@ Our REST API is enterprise grade, allowing you to communicate with engaging SMS 
 <a id="dependencies"></a>
 ## Dependencies
 
-- [RestSharp](https://www.nuget.org/packages/RestSharp) - 106.13.0 or later
-- [Json.NET](https://www.nuget.org/packages/Newtonsoft.Json/) - 13.0.2 or later
-- [JsonSubTypes](https://www.nuget.org/packages/JsonSubTypes/) - 1.8.0 or later
+- [Newtonsoft.Json](https://www.nuget.org/packages/Newtonsoft.Json) - 13.0.3 or later
 - [System.ComponentModel.Annotations](https://www.nuget.org/packages/System.ComponentModel.Annotations) - 5.0.0 or later
+- [System.Net.Http.Json](https://www.nuget.org/packages/System.Net.Http.Json) - 8.0.0 or later
+- [System.Text.Json](https://www.nuget.org/packages/System.Text.Json) - 8.0.3 or later
 
 The DLLs included in the package may not be the latest version. We recommend using [NuGet](https://docs.nuget.org/consume/installing-nuget) to obtain the latest version of the packages:
 ```
-Install-Package RestSharp
 Install-Package Newtonsoft.Json
-Install-Package JsonSubTypes
 Install-Package System.ComponentModel.Annotations
+Install-Package System.Net.Http.Json
+Install-Package System.Text.Json
 ```
 
-NOTE: RestSharp versions greater than 105.1.0 have a bug which causes file uploads to fail. See [RestSharp#742](https://github.com/restsharp/RestSharp/issues/742).
-NOTE: RestSharp for .Net Core creates a new socket for each api call, which can lead to a socket exhaustion problem. See [RestSharp#1406](https://github.com/restsharp/RestSharp/issues/1406).
 
 <a id="installation"></a>
 ## Installation
@@ -41,17 +39,9 @@ using com.telstra.messaging.Model;
 <a id="packaging"></a>
 ## Packaging
 
-A `.nuspec` is included with the project. You can follow the Nuget quickstart to [create](https://docs.microsoft.com/en-us/nuget/quickstart/create-and-publish-a-package#create-the-package) and [publish](https://docs.microsoft.com/en-us/nuget/quickstart/create-and-publish-a-package#publish-the-package) packages.
-
-This `.nuspec` uses placeholders from the `.csproj`, so build the `.csproj` directly:
-
 ```
-nuget pack -Build -OutputDirectory out com.telstra.messaging.csproj
+dotnet build src\com.telstra.messaging\com.telstra.messaging.csproj --configuration Release
 ```
-
-Then, publish to a [local feed](https://docs.microsoft.com/en-us/nuget/hosting-packages/local-feeds) or [other host](https://docs.microsoft.com/en-us/nuget/hosting-packages/overview) and consume the new package via Nuget as usual.
-
-The nuget package for Messaging V3 is published in https://www.nuget.org/packages/TelstraMessaging/, please install nuget package TelstraMessaging v3.1.1 for developing.
 
 <a id="usage"></a>
 ## Usage
