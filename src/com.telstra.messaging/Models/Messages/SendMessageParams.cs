@@ -53,7 +53,7 @@ namespace com.telstra.messaging.Models.Messages
             get { return _messageContent; }
             set
             {
-                if (!string.IsNullOrEmpty(value) && (value.Length < 1 || value.Length > 1600))
+                if (!string.IsNullOrEmpty(value) && (value?.Length < 1 || value?.Length > 1600))
                 {
                     throw new ValidationException("Invalid value. MessageContent accepts a string with max of 1600 characters");
                 }

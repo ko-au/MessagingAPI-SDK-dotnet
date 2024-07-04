@@ -73,7 +73,7 @@ namespace com.telstra.messaging
         {
             try
             {
-                var response = await SendAsync(HttpMethod.Patch, $"/messaging/v3/messages/{messageId}", updateMessageTagsParams);
+                var response = await SendAsync(new HttpMethod("PATCH"), $"/messaging/v3/messages/{messageId}", updateMessageTagsParams);
                 var responseContent = await response.Content.ReadAsStringAsync();
 
                 if (!response.IsSuccessStatusCode)
