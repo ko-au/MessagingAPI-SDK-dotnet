@@ -1,12 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Net.Http.Json;
-using System.Text.Json;
-using System.Threading.Tasks;
-using com.telstra.messaging.Models.Common;
+﻿using com.telstra.messaging.Models.Common;
 using com.telstra.messaging.Utils;
 using Newtonsoft.Json.Linq;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Net;
+using System.Net.Http;
+using System.Reflection;
+using System.Text;
+using System.Text.Json;
+using System.Threading.Tasks;
 
 namespace com.telstra.messaging.Common
 {
@@ -33,7 +36,7 @@ namespace com.telstra.messaging.Common
             }
         }
 
-        public async Task<HttpResponseMessage> SendAsync(HttpMethod httpMethod, string path, object? payload = null, QueryParams? queryParams = null)
+        public async Task<Response> SendAsync(HttpMethod httpMethod, string path, object? payload = null, QueryParams? queryParams = null)
         {
             //var isReportParams = payload?.GetType().ToString() == "com.telstra.messaging.Models.Reports.CreateReportsParams";
             queryParams = queryParams ?? new QueryParams(10, 0, null);
@@ -42,11 +45,10 @@ namespace com.telstra.messaging.Common
             {
                 var response = await RenewToken();
                 if (!response.IsSuccessStatusCode)
-                    return response;
+                    return new Response(await response.Content.ReadAsStringAsync(), response.IsSuccessStatusCode);
             }
 
             // Build Request
-            var msgAPIRequest = new HttpRequestMessage(httpMethod, $"{path}{queryParams.BuildQueryString()}");
             var serializeOptions = new JsonSerializerOptions
             {
                 PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
@@ -65,21 +67,31 @@ namespace com.telstra.messaging.Common
                 };
             }
 
-            var requestContent = JsonContent.Create(payload ?? new object(), null, serializeOptions);
-
-            msgAPIRequest.Content = requestContent; //new System.Net.Http.StringContent(payload.ToString(), Encoding.UTF8, "application/json");
+            var msgAPIRequest = (HttpWebRequest)WebRequest.Create($"{Constants.BASE_PATH}{path}{queryParams.BuildQueryString()}");
+            msgAPIRequest.Accept = "application/json";
+            msgAPIRequest.ContentType = "application/json";
+            msgAPIRequest.Method = httpMethod.Method;
             msgAPIRequest.Headers.Add("Telstra-api-version", "3.x");
             msgAPIRequest.Headers.Add("Accept-Charset", "utf-8");
-            msgAPIRequest.Headers.Add("Accept", "application/json");
-            msgAPIRequest.Content.Headers.Clear();
-            msgAPIRequest.Content.Headers.Add("Content-Type", "application/json");
-            msgAPIRequest.Content.Headers.Add("Content-Language", "en-au");
             msgAPIRequest.Headers.Add("Authorization", $"Bearer {_authToken?.AccessToken}");
+            msgAPIRequest.Headers.Add("Content-Language", "en-au");
 
-            // Send Request
-            var msgAPIResponse = await _httpClient.SendAsync(msgAPIRequest);
+            // Hack to allow GET request to contain a body
+            var type = msgAPIRequest.GetType();
+            var currentMethod = type.GetProperty("CurrentMethod", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(msgAPIRequest);
+            var methodType = currentMethod.GetType();
+            methodType.GetField("ContentBodyNotAllowed", BindingFlags.NonPublic | BindingFlags.Instance).SetValue(currentMethod, false);
 
-            return msgAPIResponse;
+            using (var streamWriter = new StreamWriter(msgAPIRequest.GetRequestStream()))
+            {
+                streamWriter.Write(JsonSerializer.Serialize(payload ?? new object(), serializeOptions));
+            }
+
+            var msgAPIResponse = (HttpWebResponse)msgAPIRequest.GetResponse();
+            var success = (int)msgAPIResponse.StatusCode >= 200 && (int)msgAPIResponse.StatusCode < 300;
+            using var stream = msgAPIResponse.GetResponseStream();
+            using var reader = new StreamReader(stream, Encoding.UTF8);
+            return new Response(reader.ReadToEnd(), success);
         }
 
         public async Task<HttpResponseMessage> RenewToken()

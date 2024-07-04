@@ -20,16 +20,15 @@ namespace com.telstra.messaging
             try
             {
                 var response = await this.SendAsync(HttpMethod.Get, "/messaging/v3/health-check");
-                var responseContent = await response.Content.ReadAsStringAsync();
 
                 if (response.IsSuccessStatusCode)
                 {
-                    var responseObject = JObject.Parse(responseContent);
+                    var responseObject = JObject.Parse(response.Content);
                     return new ApiStatus(responseObject["status"]?.ToString());
                 }
                 else
                 {
-                    throw new Exception($"Failed to get ApiStatus. {responseContent}");
+                    throw new Exception($"Failed to get ApiStatus. {response.Content}");
                 }
             }
             catch (Exception ex)

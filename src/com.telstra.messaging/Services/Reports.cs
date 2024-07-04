@@ -20,16 +20,15 @@ namespace com.telstra.messaging
             try
             {
                 var response = await SendAsync(HttpMethod.Post, "/messaging/v3/reports/messages", createReportsParams);
-                var responseContent = await response.Content.ReadAsStringAsync();
 
                 if (response.IsSuccessStatusCode)
                 {
-                    var responseObject = JsonConvert.DeserializeObject<Report>(responseContent);
+                    var responseObject = JsonConvert.DeserializeObject<Report>(response.Content);
                     return responseObject ?? new Report();
                 }
                 else
                 {
-                    throw new Exception($"Failed to create Messages Report. {responseContent}");
+                    throw new Exception($"Failed to create Messages Report. {response.Content}");
                 }
             }
             catch (Exception ex)
@@ -43,16 +42,15 @@ namespace com.telstra.messaging
             try
             {
                 var response = await SendAsync(HttpMethod.Post, "/messaging/v3/reports/messages/daily", createReportsParams);
-                var responseContent = await response.Content.ReadAsStringAsync();
 
                 if (response.IsSuccessStatusCode)
                 {
-                    var responseObject = JsonConvert.DeserializeObject<Report>(responseContent);
+                    var responseObject = JsonConvert.DeserializeObject<Report>(response.Content);
                     return responseObject ?? new Report();
                 }
                 else
                 {
-                    throw new Exception($"Failed to create Messages Daily Summary Report. {responseContent}");
+                    throw new Exception($"Failed to create Messages Daily Summary Report. {response.Content}");
                 }
             }
             catch (Exception ex)
@@ -66,16 +64,15 @@ namespace com.telstra.messaging
             try
             {
                 var response = await SendAsync(HttpMethod.Get, "/messaging/v3/reports");
-                var responseContent = await response.Content.ReadAsStringAsync();
 
                 if (response.IsSuccessStatusCode)
                 {
-                    var responseObject = JsonConvert.DeserializeObject<ReportsList>(responseContent);
+                    var responseObject = JsonConvert.DeserializeObject<ReportsList>(response.Content);
                     return responseObject ?? new ReportsList();
                 }
                 else
                 {
-                    throw new Exception($"Failed to get Reports. {responseContent}");
+                    throw new Exception($"Failed to get Reports. {response.Content}");
                 }
             }
             catch (Exception ex)
@@ -89,16 +86,15 @@ namespace com.telstra.messaging
             try
             {
                 var response = await SendAsync(HttpMethod.Get, $"/messaging/v3/reports/{reportId}");
-                var responseContent = await response.Content.ReadAsStringAsync();
 
                 if (response.IsSuccessStatusCode)
                 {
-                    var responseObject = JsonConvert.DeserializeObject<Report>(responseContent);
+                    var responseObject = JsonConvert.DeserializeObject<Report>(response.Content);
                     return responseObject ?? new Report();
                 }
                 else
                 {
-                    throw new Exception($"Failed to get the Report. {responseContent}");
+                    throw new Exception($"Failed to get the Report. {response.Content}");
                 }
             }
             catch (Exception ex)

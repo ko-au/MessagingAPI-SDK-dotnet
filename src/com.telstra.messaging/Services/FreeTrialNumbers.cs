@@ -21,16 +21,15 @@ namespace com.telstra.messaging
             try
             {
                 var response = await SendAsync(HttpMethod.Post, "/messaging/v3/free-trial-numbers", freeTrialNumbers);
-                var responseContent = await response.Content.ReadAsStringAsync();
 
                 if (response.IsSuccessStatusCode)
                 {
-                    var responseObject = JsonConvert.DeserializeObject<FreeTrialNumbersList>(responseContent);
+                    var responseObject = JsonConvert.DeserializeObject<FreeTrialNumbersList>(response.Content);
                     return responseObject ?? new FreeTrialNumbersList(new List<string>());
                 }
                 else
                 {
-                    throw new Exception($"Failed to create FreeTrialNumbers. {responseContent}");
+                    throw new Exception($"Failed to create FreeTrialNumbers. {response.Content}");
                 }
             }
             catch (Exception ex)
@@ -44,16 +43,15 @@ namespace com.telstra.messaging
             try
             {
                 var response = await SendAsync(HttpMethod.Get, "/messaging/v3/free-trial-numbers");
-                var responseContent = await response.Content.ReadAsStringAsync();
 
                 if (response.IsSuccessStatusCode)
                 {
-                    var responseObject = JsonConvert.DeserializeObject<FreeTrialNumbersList>(responseContent);
+                    var responseObject = JsonConvert.DeserializeObject<FreeTrialNumbersList>(response.Content);
                     return responseObject ?? new FreeTrialNumbersList(new List<string>());
                 }
                 else
                 {
-                    throw new Exception($"Failed to get FreeTrialNumbers. {responseContent}");
+                    throw new Exception($"Failed to get FreeTrialNumbers. {response.Content}");
                 }
             }
             catch (Exception ex)

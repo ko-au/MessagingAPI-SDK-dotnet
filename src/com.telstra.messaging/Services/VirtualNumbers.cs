@@ -22,16 +22,15 @@ namespace com.telstra.messaging
             try
             {
                 var response = await SendAsync(HttpMethod.Post, "/messaging/v3/virtual-numbers", assignVirtualNumberParams);
-                var responseContent = await response.Content.ReadAsStringAsync();
 
                 if (response.IsSuccessStatusCode)
                 {
-                    var responseObject = JsonConvert.DeserializeObject<VirtualNumber>(responseContent);
+                    var responseObject = JsonConvert.DeserializeObject<VirtualNumber>(response.Content);
                     return responseObject ?? new VirtualNumber();
                 }
                 else
                 {
-                    throw new Exception($"Failed to assign VirtualNumber. {responseContent}");
+                    throw new Exception($"Failed to assign VirtualNumber. {response.Content}");
                 }
             }
             catch (Exception ex)
@@ -45,16 +44,15 @@ namespace com.telstra.messaging
             try
             {
                 var response = await SendAsync(HttpMethod.Get, "/messaging/v3/virtual-numbers", null, queryParams);
-                var responseContent = await response.Content.ReadAsStringAsync();
 
                 if (response.IsSuccessStatusCode)
                 {
-                    var responseObject = JsonConvert.DeserializeObject<VirtualNumbersList>(responseContent);
+                    var responseObject = JsonConvert.DeserializeObject<VirtualNumbersList>(response.Content);
                     return responseObject ?? new VirtualNumbersList();
                 }
                 else
                 {
-                    throw new Exception($"Failed to get a list of VirtualNumbers. {responseContent}");
+                    throw new Exception($"Failed to get a list of VirtualNumbers. {response.Content}");
                 }
             }
             catch (Exception ex)
@@ -73,16 +71,15 @@ namespace com.telstra.messaging
                 }
 
                 var response = await SendAsync(HttpMethod.Get, $"/messaging/v3/virtual-numbers/{virtualNumber}");
-                var responseContent = await response.Content.ReadAsStringAsync();
 
                 if (response.IsSuccessStatusCode)
                 {
-                    var responseObject = JsonConvert.DeserializeObject<VirtualNumber>(responseContent);
+                    var responseObject = JsonConvert.DeserializeObject<VirtualNumber>(response.Content);
                     return responseObject ?? new VirtualNumber();
                 }
                 else
                 {
-                    throw new Exception($"Failed to get VirtualNumber. {responseContent}");
+                    throw new Exception($"Failed to get VirtualNumber. {response.Content}");
                 }
             }
             catch (Exception ex)
@@ -96,16 +93,15 @@ namespace com.telstra.messaging
             try
             {
                 var response = await SendAsync(HttpMethod.Put, $"/messaging/v3/virtual-numbers/{updateVirtualNumberParams.Number}", updateVirtualNumberParams.UpdateData);
-                var responseContent = await response.Content.ReadAsStringAsync();
 
                 if (response.IsSuccessStatusCode)
                 {
-                    var responseObject = JsonConvert.DeserializeObject<VirtualNumber>(responseContent);
+                    var responseObject = JsonConvert.DeserializeObject<VirtualNumber>(response.Content);
                     return responseObject ?? new VirtualNumber();
                 }
                 else
                 {
-                    throw new Exception($"Failed to update VirtualNumber. {responseContent}");
+                    throw new Exception($"Failed to update VirtualNumber. {response.Content}");
                 }
             }
             catch (Exception ex)
@@ -124,11 +120,10 @@ namespace com.telstra.messaging
                 }
 
                 var response = await SendAsync(HttpMethod.Delete, $"/messaging/v3/virtual-numbers/{virtualNumber}");
-                var responseContent = await response.Content.ReadAsStringAsync();
 
                 if (!response.IsSuccessStatusCode)
                 {
-                    throw new Exception($"Failed to delete VirtualNumber. {responseContent}");
+                    throw new Exception($"Failed to delete VirtualNumber. {response.Content}");
                 }
             }
             catch (Exception ex)
@@ -147,16 +142,15 @@ namespace com.telstra.messaging
                 }
 
                 var response = await SendAsync(HttpMethod.Get, $"/messaging/v3/virtual-numbers/{virtualNumber}/optouts");
-                var responseContent = await response.Content.ReadAsStringAsync();
 
                 if (response.IsSuccessStatusCode)
                 {
-                    var responseObject = JsonConvert.DeserializeObject<RecipientOptoutsList>(responseContent);
+                    var responseObject = JsonConvert.DeserializeObject<RecipientOptoutsList>(response.Content);
                     return responseObject ?? new RecipientOptoutsList();
                 }
                 else
                 {
-                    throw new Exception($"Failed to get Recipient Optouts List. {responseContent}");
+                    throw new Exception($"Failed to get Recipient Optouts List. {response.Content}");
                 }
             }
             catch (Exception ex)
